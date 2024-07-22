@@ -6,19 +6,22 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     @vite('resources/css/app.css')
-
 </head>
-<body>
-
-    <header>
+<body class="flex flex-col min-h-screen">
+    <header class="flex-none">
         @include('layouts.header')
     </header>
 
-    @yield('content')
+    <header class="flex-none">
+        @include('layouts.productlist')
+    </header>
 
-    <Footer>
+    <main class="flex-grow">
+        @yield('content')
+    </main>
+
+    <footer class="flex-none">
         @include('layouts.footer')
-    </Footer>
-
+    </footer>
 </body>
 </html>

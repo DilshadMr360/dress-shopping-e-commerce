@@ -1,24 +1,24 @@
 
 
 <nav style="background-color: {{ config('colors.defaulColor2') }}">
-    <div class="py-4 container_mx">
-        <div class="flex items-center mx-2 ">
+    <div class="py-6 container_mx">
+        <div class="flex items-center gap-20 mx-2">
             <ul class="flex flex-row mt-0 space-x-8 text-sm font-medium rtl:space-x-reverse">
                 <li>
-                    <a href="#" class="text-white "  aria-current="page">Home</a>
+                    <a href="#" class="text-white underline"  aria-current="page">ALL PRODUCTS</a>
                 </li>
                 <li>
-                    <a href="#" class="text-white ">Company</a>
+                    <a href="#" class="text-white underline">MEN</a>
                 </li>
                 <li>
-                    <a href="#" class="text-white ">Team</a>
+                    <a href="#" class="text-white underline">WOMEN</a>
                 </li>
                 <li>
-                    <a href="#" class="text-white ">Features</a>
+                    <a href="#" class="text-white underline ">KIDS</a>
                 </li>
             </ul>
 
-            <div class="relative w-full max-w-xs ml-auto">
+            <div class="relative w-full max-w-xs ">
                 <input
                     type="text"
                     placeholder="Search Product"

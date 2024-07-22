@@ -9,7 +9,7 @@
 </head>
 <body>
 <header class="text-white" style="background-color: {{ config('colors.defaultColor1') }}">
-    <div class="flex justify-between container_mx">
+    <div class="flex items-center justify-between container_mx">
         <!-- Logo -->
         <div class="hidden -ml-3 text-2xl font-bold md:block"> <!-- Hide on mobile -->
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-16">
@@ -24,6 +24,9 @@
 
         <!-- Navigation links with icons -->
         <nav id="navLinks" class="hidden md:flex md:items-center md:space-x-3">
+            <div>
+                hi  {{ Auth::user()->name }}
+            </div>
             <div class="relative">
                 <a href="#" class="block px-3 py-2 text-white rounded-lg md:inline-block hover:bg-gray-700">
                     <i class="fas fa-shopping-cart"></i>
@@ -36,9 +39,20 @@
                 </a>
                 <span class="absolute inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-black transform translate-x-1/2 -translate-y-1/2 bg-yellow-500 rounded-full right-1 top-2">0</span>
             </div>
-            <a href="#" class="block px-3 py-2 text-white rounded-lg md:inline-block hover:bg-gray-700">
-                <i class="fas fa-user"></i>
-            </a>
+            <!-- User Icon with Dropdown -->
+            <div class="relative">
+                <button onclick="toggleDropdown()" class="block px-3 py-2 text-white rounded-lg md:inline-block hover:bg-gray-700">
+                    <i class="fas fa-user"></i>
+                </button>
+                <!-- Dropdown Menu -->
+                <div id="userDropdown" class="absolute right-0 hidden w-48 mt-2 text-black bg-white rounded-lg shadow-lg">
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-200">Update Profile</a>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="w-full px-4 py-2 text-left hover:bg-gray-200">Logout</button>
+                    </form>
+                </div>
+            </div>
         </nav>
     </div>
 </header>
@@ -53,6 +67,11 @@
             navLinks.classList.remove('flex', 'flex-col', 'space-y-3');
             navLinks.classList.add('hidden');
         }
+    }
+
+    function toggleDropdown() {
+        var dropdown = document.getElementById('userDropdown');
+        dropdown.classList.toggle('hidden');
     }
 
     function checkScreenSize() {

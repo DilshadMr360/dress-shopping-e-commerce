@@ -14,8 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/wel', function () {
-    return view('welcome');
+Route::get('/home', function () {
+    return view('pages.home');
+});
+
+Route::get('/allproducts', function () {
+    return view('layouts.productlist');
 });
 
 Route::get('/', [AuthController::class, 'loginIndex'])->name('loginshow');

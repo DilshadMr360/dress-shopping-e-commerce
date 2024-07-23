@@ -2,11 +2,12 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/home', function () {
-    return view('pages.home');
-})->name('home');
+// Route::get('/home', function () {
+//     return view('pages.home');
+// })->name('home');
 
 Route::get('/allproducts', function () {
     return view('layouts.productlist');
@@ -19,7 +20,20 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-// Route::get('/category', [CategoryController::class, 'showCategory'])->name('showcategory');
+// Categories
 Route::post('/category', [CategoryController::class, 'addCategory'])->name('addcategory');
 Route::get('/allcategories', [CategoryController::class, 'allCategories'])->name('allcategories');
+
+// Products
+Route::get('/products', [ProductsController::class, 'product'])->name('product');
+Route::post('/products', [ProductsController::class, 'addProduct'])->name('addproduct');
+Route::get('/allproducts', [ProductsController::class, 'allProducts'])->name('allproducts');
+
+
+//home
+Route::get('/home', [ProductsController::class, 'home'])->name('home');
+Route::get('/home/category/{category_id}', [ProductsController::class, 'filterProductsByCategory'])->name('home.category');
+
+//search
+Route::get('/search', [ProductsController::class, 'search'])->name('search');
 

@@ -1,6 +1,8 @@
 @extends('layouts.layout')
 
 @section('content')
+
+@if (Auth::check() && Auth::user()->role != 'admin')
 <div class=" container_mx">
     <div class="flex flex-col items-center justify-between space-y-4 font-bold md:flex-row md:space-y-0">
 
@@ -30,6 +32,6 @@
         </div>
     </div>
 </div>
-
+@endif
 
 @endsection

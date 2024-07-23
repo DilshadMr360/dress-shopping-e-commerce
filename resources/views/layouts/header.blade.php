@@ -27,6 +27,7 @@
             <div>
                 hi  {{ Auth::user()->name }}
             </div>
+            @if (Auth::check() && Auth::user()->role != 'admin')
             <div class="relative">
                 <a href="#" class="block px-3 py-2 text-white rounded-lg md:inline-block hover:bg-gray-700">
                     <i class="fas fa-shopping-cart"></i>
@@ -39,6 +40,8 @@
                 </a>
                 <span class="absolute inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-black transform translate-x-1/2 -translate-y-1/2 bg-yellow-500 rounded-full right-1 top-2">0</span>
             </div>
+    @endif
+
             <!-- User Icon with Dropdown -->
             <div class="relative">
                 <button onclick="toggleDropdown()" class="block px-3 py-2 text-white rounded-lg md:inline-block hover:bg-gray-700">

@@ -12,9 +12,19 @@
         @include('layouts.header')
     </header>
 
+    @if (Auth::check() && Auth::user()->role == 'user')
     <header class="flex-none">
         @include('layouts.productlist')
     </header>
+    @endif
+
+    @if (Auth::check() && Auth::user()->role == 'admin')
+    <header class="flex-none">
+        @include('auth.admin.addproduct')
+    </header>
+    @endif
+
+
 
     <main class="flex-grow">
         @yield('content')

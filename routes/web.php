@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,3 +47,8 @@ Route::patch('/update-cart', [CartController::class, 'updatecart'])->name('updat
 Route::delete('/remove-from-cart', [CartController::class, 'removecart'])->name('removecart');
 
 
+//payment
+
+Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
+Route::get('/success', [PaymentController::class, 'success'])->name('success');
+Route::get('/cancel', [PaymentController::class, 'cancel'])->name('cancel');

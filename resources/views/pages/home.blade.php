@@ -35,6 +35,8 @@
                  </div>
 
 
+            <form action="{{route('add_to_cart', $product->id)}}" method="POST">
+                @csrf
             <div class="flex items-end justify-between">
                 <button
                     class="flex items-center justify-center w-full h-10 text-white"
@@ -45,6 +47,8 @@
                     <i class="ml-2 fas fa-shopping-cart"></i>
                 </button>
             </div>
+        </form>
+
         </div>
         @endforeach
     </div>

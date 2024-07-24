@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
@@ -36,4 +37,12 @@ Route::get('/home/category/{category_id}', [ProductsController::class, 'filterPr
 
 //search
 Route::get('/search', [ProductsController::class, 'search'])->name('search');
+
+
+//cart
+Route::get('/cart', [CartController::class, 'viewCart'])->name('view_cart');
+Route::post('/cart/{id}', [CartController::class, 'add_to_cart'])->name('add_to_cart');
+Route::patch('/update-cart', [CartController::class, 'updatecart'])->name('updatecart');
+Route::delete('/remove-from-cart', [CartController::class, 'removecart'])->name('removecart');
+
 

@@ -82,9 +82,12 @@
     </a>
 
 
-    <button class="text-white w-52 h-10 rounded-md"  style="background-color: {{ config('colors.defaultColor1') }}">
-        <h1>Check out</h1>
-    </button>
+    <form action="{{ route('checkout') }}" method="POST">
+        @csrf
+        <button class="text-white w-52 h-10 rounded-md" style="background-color: {{ config('colors.defaultColor1') }}">
+            <h1>Check out</h1>
+        </button>
+    </form>
 </div>
 
 <script>

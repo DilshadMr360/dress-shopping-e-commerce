@@ -73,20 +73,20 @@
 <div class="font-bold mt-5 flex  justify-end container_mx">
     <h1>Total {{$total}}</h1>
 </div>
-
 <div class="mx-2 mt-5 flex  justify-end gap-2 ">
     <a href="{{ route('home') }}">
         <button class="text-white w-52 h-10 rounded-md" style="background-color: {{ config('colors.defaultColor1') }}">
             <h1>Continue Shopping</h1>
         </button>
     </a>
+    <form action="{{route('session')}}" method="POST">
 
-
+ <input type="hidden" name="_token" value="{{csrf_token()}}">
     <button class="text-white w-52 h-10 rounded-md"  style="background-color: {{ config('colors.defaultColor1') }}">
         <h1>Check out</h1>
     </button>
 </div>
-
+</form>
 <script>
 
     $(".cart_remove").click(function (e){

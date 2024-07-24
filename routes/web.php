@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\StripeController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/home', function () {
@@ -46,3 +47,7 @@ Route::patch('/update-cart', [CartController::class, 'updatecart'])->name('updat
 Route::delete('/remove-from-cart', [CartController::class, 'removecart'])->name('removecart');
 
 
+//payment
+Route::post('/session', [StripeController::class, 'session'])->name('session');
+Route::get('/success', [StripeController::class, 'success'])->name('success');
+Route::get('/cancel', [StripeController::class, 'cancel'])->name('cancel');

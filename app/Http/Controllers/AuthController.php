@@ -54,12 +54,16 @@ class AuthController extends Controller
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
-
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
+        // Clear the session cart data
+        $request->session()->forget('cart');
 
-        // Redirect the user to the login page
         return redirect()->route('loginshow');
     }
+
 }

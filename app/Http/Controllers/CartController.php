@@ -10,12 +10,24 @@ class CartController extends Controller
 {
 
     public function viewCart() {
-           // Get the cart items from the session
-    $carts = session()->get('cart', []);
+        // Get the cart items from the session
+ $carts = session()->get('cart', []);
 
-    // Pass the cart items to the view
-    return view('cart.cartItem', compact('carts'));
-    }
+     // Validate cart items
+     foreach ($carts as $id => $item) {
+         // Check if the product still exists in the database
+         if (!Products::find($id)) {
+             // If not, remove it from the cart
+             unset($carts[$id]);
+         }
+     }
+
+     // Update the cart in the session
+     session()->put('cart', $carts);
+
+     // Pass the cart items to the view
+     return view('cart.cartItem', compact('carts'));
+ }
     /**
      * Display a listing of the resource.
      */

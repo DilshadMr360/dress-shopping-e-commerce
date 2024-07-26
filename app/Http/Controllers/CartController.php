@@ -5,83 +5,81 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Products;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
 
     public function viewCart() {
         // Get the cart items from the session
- $carts = session()->get('cart', []);
+ // Retrieve the cart items from the Cart table
+//  $carts = Cart::all();
+    $carts = Cart::where('user_id', Auth::id())->get();
 
-     // Validate cart items
-     foreach ($carts as $id => $item) {
-         // Check if the product still exists in the database
-         if (!Products::find($id)) {
-             // If not, remove it from the cart
-             unset($carts[$id]);
-         }
+ // Validate cart items
+ foreach ($carts as $cartItem) {
+     // Check if the product still exists in the database
+     if (!Products::find($cartItem->product_id)) {
+         // If not, remove it from the Cart table
+         $cartItem->delete();
      }
+ }
 
-     // Update the cart in the session
-     session()->put('cart', $carts);
-
-     // Pass the cart items to the view
-     return view('cart.cartItem', compact('carts'));
+ // Retrieve the updated cart items
+ $updatedCarts = Cart::where('user_id', Auth::id())->get();
+ // Return the view with the validated cart items
+ return view('cart.cartItem', ['carts' => $updatedCarts]);
  }
     /**
      * Display a listing of the resource.
      */
     public function add_to_cart($id)
     {
-        // Find the product by ID
         $product = Products::findOrFail($id);
 
-        // Get the current cart from the session or initialize an empty array
-        $cart = session()->get('cart', []);
+        $cartItem = Cart::where('user_id', Auth::id())->where('product_id', $id)->first();
 
-        // Check if the product is already in the cart
-        if (isset($cart[$id])) {
-            // If it is, increment the quantity
-            $cart[$id]['quantity']++;
+        if ($cartItem) {
+            $cartItem->quantity++;
         } else {
-            // If not, add the product to the cart with quantity 1
-            $cart[$id] = [
-                "product_name" => $product->product_title,
-                "photo" => $product->upload_part_image,
-                "price" => $product->price,
-                "quantity" => 1
-            ];
-            // dd($cart);
+            $cartItem = new Cart();
+            $cartItem->user_id = Auth::id();
+            $cartItem->product_id = $id;
+            $cartItem->quantity = 1;
         }
 
-        // Update the cart in the session
-        session()->put('cart', $cart);
+        $cartItem->save();
 
-        // Redirect back with a success message
         return redirect()->back()->with('success', 'Product added to cart successfully!');
     }
 
 
+
     public function updatecart(Request $request)
     {
-        if($request->id && $request->quantity){
-            $cart = session()->get('cart');
-            $cart[$request->id]["quantity"] =$request->quantity;
-            session()->put('cart', $cart);
-            session()->flash('success', 'Cart successfully updates');
+        $cartItem = Cart::where('user_id', Auth::id())->where('product_id', $request->product_id)->first();
+
+        if ($cartItem) {
+            $cartItem->quantity = $request->quantity;
+            $cartItem->save();
+
+            return response()->json(['status' => 'success', 'message' => 'Cart updated successfully']);
         }
+
+        return response()->json(['status' => 'error', 'message' => 'Cart item not found']);
     }
 
-    public function removecart(Request $request){
+    public function removecart(Request $request)
+    {
+        $cartItem = Cart::where('user_id', Auth::id())->where('product_id', $request->product_id)->first();
 
-        if($request->id){
-            $cart = session()->get('cart');
-            if(isset($cart[$request->id])) {
-                unset($cart[$request->id]);
-                session()->put('cart', $cart);
-            }
-            session()->flash('success', 'Product Removed Successfully');
+        if ($cartItem) {
+            $cartItem->delete();
+
+            return response()->json(['status' => 'success', 'message' => 'Cart item removed successfully']);
         }
+
+        return response()->json(['status' => 'error', 'message' => 'Cart item not found']);
     }
 
 }
